@@ -2,7 +2,11 @@
 # Aliases
 # --------------
 alias ls="ls -la"
-
+alias gs="git status"
+alias gb="git branch"
+alias gp="git push"
+# Git prune: Delete all merged branches, except master or dev branch (local only)
+alias gpr="git branch --merged | egrep -v \"(^\*|master|dev|develop)\" | xargs git branch -d"
 
 
 # User functions
@@ -49,4 +53,15 @@ up () {
     d=..
   fi
   cd $d
+}
+
+# Recursively find files by pattern
+search() {
+  # Exclude node modules folder
+  find . -name "$1" -not -path *node_modules*
+}
+
+# Recursively remove files by pattern. USE CAUTION
+remove() {
+  find . -name "$1" -not -path "*node_modules*" -exec rm -vf {} \;
 }
