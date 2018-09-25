@@ -1,0 +1,27 @@
+# This is Git's per-user configuration file.
+
+[user]
+	name = Vinay NAIDU
+	email = vinay.naidu@uk.bnpparibas.com
+
+
+# Configuring diff tool
+[diff]
+    tool = meld
+[difftool]
+    prompt = false
+[difftool "meld"]
+    cmd = meld.exe "$LOCAL" "$REMOTE"
+
+
+# Configuring mergetool
+[merge]
+    tool = meld
+[mergetool "meld"]
+	# path = D:/Program Files (x86)/Meld/meld/Meld.exe
+    # Choose one of two cmd lines:
+    # $MERGED is the partially merged file with the merge conflict information in it.
+    # $BASE is the shared commit ancestor of $LOCAL and $REMOTE, the file as it was when the branch containing $REMOTE was originally created.
+    cmd = meld.exe "$LOCAL" "$MERGED" "$REMOTE" --output "$MERGED"
+    # cmd = meld "$LOCAL" "$BASE" "$REMOTE" --output "$MERGED"
+
