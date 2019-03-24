@@ -1,18 +1,21 @@
-
 # Aliases
 # --------------
-alias ls="ls -al --color=auto"
-alias gc="commit_with_id"
-alias ga="git add --all"
+alias gls="git log --pretty=oneline"
+alias gchm="git checkout master"
+alias gds="git diff --cached"
+alias gmt="git mergetool"
+alias gch="git checkout"
 alias gb="git branch"
+alias gpl="git pull"
 alias gd="git diff"
 alias gl="git log"
 alias gp="git push"
-alias gpl="git pull"
 alias gs="git status"
-alias gch="git checkout"
+alias ga="git add --all"
+alias gc="commit_with_id"
 alias gmm="git merge master"
-alias gchm="git checkout master"
+alias ls="ls -al --color=auto"
+alias gchd="git checkout develop"
 alias gll="git log --all --oneline --graph --decorate"
 # Git prune: Delete all merged branches, except master or dev branch (local only)
 alias gpr="git branch --merged | egrep -v \"(^\*|master|dev|develop)\" | xargs git branch -d"
@@ -24,14 +27,20 @@ alias ngs="ng g s"
 alias ngm="ng g m"
 
 # Npm
-
 alias npl="npm list -g --depth=0"
 alias npll="npm list --depth=0"
 alias npm-get="npm pack" # Get package tarball tarball from registry, put it in current working directory
 
+# Grunt
+alias grb="grunt bam"
+alias grl="grunt lite"
+alias grs="grunt serve"
+
 # Misc
 alias c="clear"
+alias ex="explorer ." # Open explorer in current folder
 alias cc="while true; do head -c200 /dev/urandom | od -An -w50 -x | grep -E --color \"([[:alpha:]][[:digit:]]){2}\"; sleep 0.5; done"
+
 
 # Alias section end
 
@@ -49,8 +58,9 @@ gcp() {
   commit_with_id "$1" "push";
 }
 
-# Automatically prepends current branch ID to git message
+# Automatically prepends current branch ID to git commit message
 # Use "push" as second arg to commit and push
+# branch name shoule be feature/11111-any-name-here. Supports bugfix too
 commit_with_id()
 {
 	# 1. Get branch name
@@ -128,7 +138,60 @@ remove() {
   find . -name "$1" -not -path "*node_modules*" -exec rm -vf {} \;
 }
 
-# Print all aliases...
-#halp() {
-#  /d/Development/codelab/c#/AliasPrint/AliasPrint/bin/Debug/AliasPrint.exe
-#}
+# Create branch and checkout into it
+gfb() {
+  gb $1 && gch $1
+}
+
+# Print all aliases.
+halp() {
+
+  FILENAME="$HOME/.bashrc"
+
+  # Colors
+  Red='\033[0;31m'
+  Black='\033[0;30m'
+  Green='\033[0;32m'
+  Brown='\033[0;33m'
+  Blue='\033[0;34m'
+  Purple='\033[0;35m'
+  Cyan='\033[0;36m'
+  LightGray='\033[0;37m'
+  DarkGray='\033[1;30m'
+  LightRed='\033[1;31m'
+  LightGreen='\033[1;32m'
+  Yellow='\033[1;33m'
+  LightBlue='\033[1;34m'
+  LightPurple='\033[1;35m'
+  LightCyan='\033[1;36m'
+  White='\033[1;37m'
+  NC='\033[0m' # No colour
+
+  while read -r LINE; do
+
+      if [[ "$LINE" == *"# Alias section end"* ]]; then
+        # Quit after alias sections
+        break
+      fi
+
+      if [[ "$LINE" == "#"* ]]; then
+        # Comments
+        echo -e "${DarkGray}$LINE"
+
+    elif [[ "$LINE" == "alias"* ]]; then
+      # Aliases - extract parts for colours. Eg:
+      # alias gs="git status"
+      # Where gs = alias
+      # git status = command
+
+      IFS="=" read Alias Command <<< "${LINE#alias }"
+
+      echo -e "${NC}alias ${Brown}$Alias${DarkGray}=${LightBlue}$Command"
+
+      else
+        # Uninteresting line
+        echo -e "${NC}$LINE"
+      fi
+
+  done < "$FILENAME"
+}
