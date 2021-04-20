@@ -36,6 +36,10 @@ alias grb="grunt bam"
 alias grl="grunt lite"
 alias grs="grunt serve"
 
+# lein
+alias lein="~/lein.bat"
+alias lr="lein run"
+
 # Misc
 alias c="clear"
 alias ex="explorer ." # Open explorer in current folder
@@ -145,6 +149,8 @@ gfb() {
 
 # Print all aliases.
 halp() {
+  # /d/Development/codelab/c#/AliasPrint/AliasPrint/bin/Debug/AliasPrint.exe
+  # ./devTools/scripts/alias_print.sh
 
   FILENAME="$HOME/.bashrc"
 
@@ -183,6 +189,9 @@ halp() {
       # alias gs="git status"
       # Where gs = alias
       # git status = command
+
+      # Command=$(echo $LINE | cut -d'=' -f 2)
+      # Alias=$(echo $LINE | cut -d'=' -f 1 | cut -d' ' -f 2)
 
       IFS="=" read Alias Command <<< "${LINE#alias }"
 
