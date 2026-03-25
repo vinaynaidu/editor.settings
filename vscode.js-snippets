@@ -1,10 +1,10 @@
 // Goes in js-common.code-snippets. Applies to both js and ts
 
-   "Print to console - data": {
+	"Print to console - data": {
 		"scope": "javascript,typescript",
 		"prefix": "lg",
 		"body": [
-			"console.log('%c $1: ', 'background: #222; color: white', $1);",
+			"console.log('%c lg: $1: ', 'background: #222; color: white', $1);",
 			"$2"
 		],
 		"description": "Log output with variable name"
@@ -13,7 +13,7 @@
 		"scope": "javascript,typescript",
 		"prefix": "lgg",
 		"body": [
-			"console.log('$1');",
+			"console.log('%c lg: $1', 'background: #222; color: white');",
 			"$2"
 		],
 		"description": "Log output"
